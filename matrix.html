@@ -15,45 +15,81 @@
 <!-- END HEADER -->
 
 <body>
-  <form class="form-inline" onclick="create_matrix()">
-    <div class="form-group">
-      <label for="rowdimension" class="">rows</label>
-      <input type="text" class="form-control" id="rowdimension">
-    </div>
-    <div class="form-group">
-      <label for="coldimension">cols</label>
-      <input type="text" class="form-control" id="coldimension">
-    </div>
-		<button type="button" class="btn btn-primary">Create Matrix</button>
-  </form>
 <div class="container">
-<div class="row">
-			<!-- BEGIN TABLE -->
-			<table class="col-md-4">
-				<tbody id="matA"></tbody>
-			</table> 
-			<!-- END TABLE -->
-</div>
-</div>
+
+  <div class="row">
+        <!-- BEGIN TABLE -->
+        <table class="col-md-4">
+          <tbody id="matA"></tbody>
+        </table> 
+        <!-- END TABLE -->
+  </div> <!-- END MATRIX ROW -->
+  
+  <div class="row">
+    <form class="form-inline">
+
+      <div class="form-group">
+        <label for="rowdimension" class="">rows</label>
+        <input type="text" class="form-control" id="rowdimension">
+      </div>
+
+      <div class="form-group">
+        <label for="coldimension">cols</label>
+        <input type="text" class="form-control" id="coldimension">
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="create_matrix()">Create Matrix</button>
+      <button type="button" class="btn btn-primary" onclick="highlight(1,1)">Highlight</button>
+
+    </form>
+  </div> <!-- END FORM ROW -->
+
+</div> <!-- END CONTAINER -->
 
 
 <!-- BEGIN JAVASCRIPT -->
 <script>
-	function create_matrix() {
+	function create_matrix(id) {
 		rows = document.getElementById("rowdimension").value;
 		cols = document.getElementById("coldimension").value;
 		var mytable = '';
 		for (var i = 0; i < rows; i++) {
 			mytable += "<tr>";
 			for (var j = 0; j < cols; j++) {
-				mytable += "<td>[" + i + "]</td>";
+				mytable += "<td" + " class='text-center' id='mat"+i+j+"'"+">" +"[" + i + "]</td>";
 			}
 			mytable += "</tr>";
 		}
 		document.getElementById("matA").innerHTML = mytable;
 	}
+
+  function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  function highlight(i, j) {
+    for (var i = 0; i < 3; ++i) {
+      for (var j = 0; j < 3; ++j) {
+        var index = "mat"+i+j;
+        var cell = document.getElementById(index);
+        var lastcell = document.getElementsByClassName("highlight");
+        console.log(lastcell);
+        if (lastcell) {
+          lastcell.className = "";
+        }
+        if(cell) {
+          cell.className += cell.className ? ' highlight' : 'highlight';
+        }
+        //await sleep(1000);
+      }
+    }
+  }
 </script>
 <!-- END JAVASCRIPT -->
-
+<style>
+.highlight {
+  background-color:yellow;
+}
+</style>
 
 </body>
